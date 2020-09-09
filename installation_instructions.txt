@@ -1,0 +1,7 @@
+install google sdk
+set up google cloud instance
+install anaconda 2 and have python version 2.7
+install gdal using (https://anaconda.org/conda-forge/gdal)
+install google earth engine api (https://developers.google.com/earth-engine/python_install_manual)
+install tensorflow either using pip or conda
+

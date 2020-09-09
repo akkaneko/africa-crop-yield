@@ -1,0 +1,25 @@
+In this project, we use anaconda 2 environment with python version 2.7
+The operating system is Ubuntu 16.04 LTS
+
+
+Once all the .tif files are downloaded, you need to move them to their respective folders. 
+
+Our file structure for the tif data is "mounted_bucket/tif_data_final/[dataset name]/[county name]", where "dataset name" is:
+"[prefix(if necessary)] _ [country abbreviation] _ [admin level]"
+
+For example, the modis surface reflectance data has no prefix, so the path for the directory with Ethiopia surface reflectance data would be "mounted_bucket/tif_data_final/ET_admin1/". Inside this folder would be all the tif files for the counties, each called [county_name].tif. The path for the Ethiopia temperature data would be "mounted_bucket/tif_data_final/temp_ET_admin1/", and the path for the vegetation data would be the same except with the prefix "veg_".
+
+You can move the tif files with relative ease using the "mv" command. For example, if we have our admin 2 Ethiopia temperature tiffs in the bucket with the prefix "temp_ET_admin2_" (so an example of an actual file would be "temp_ET_admin2_Gurage.tif"), we can move all the tifs to the right folder ("tif_data_final/TEMP_ET_admin2") by using the command "mv temp_ET_admin2*.tif tif_data_final/TEMP_ET_admin2". 
+
+The next step is to rename all of the files in the folder to get rid of the prefixes. For this, you can simply cd into the the directory and use the "rename" command. E.G. "rename 's/temp_ET_admin2_//' *.tif"
+
+Some of the really large .tif files may be split during the process. For example, instead of 'Oromia Regroup.tif' you will get 4 different files named:'Oromia Regroup0000000000-0000000000.tif','Oromia Regroup0000000000-0000000768.tif','Oromia Regroup0000000768-0000000000.tif', 'Oromia Regroup0000000768-0000000768.tif'. To combine these and save them as a .npy file, you can use the combine_tifs function in util_processing.py. Simply pass in a list of the paths to the tifs as the first argument and the desired output name as the second. E.G:
+	combine_tifs(['Oromia Regroup0000000000-0000000000.tif',
+		'Oromia Regroup0000000000-0000000768.tif',
+		'Oromia Regroup0000000768-0000000000.tif',
+		'Oromia Regroup0000000768-0000000768.tif'
+	            ],
+	            "Oromia Regroup")
+
+
+Now you can easily process the .tif files into features using functions in util, and then run the models.
